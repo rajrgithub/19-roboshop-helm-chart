@@ -14,7 +14,7 @@ pipeline {
 
     stage('Get Values file') {
       steps {
-        dir('APP') {
+        dir('TEST') {
           git branch: 'main', url: 'https://github.com/rajrgithub/${COMPONENT}.git'
         }
       }

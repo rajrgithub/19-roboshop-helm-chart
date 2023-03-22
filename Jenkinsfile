@@ -14,16 +14,20 @@ pipeline {
 
     stage('Get Values file') {
       steps {
-        dir('TEST') {
+        dir('APP') {
           git branch: 'main', url: 'https://github.com/rajrgithub/${COMPONENT}.git'
+        }
+
+        dir('HELM') {
+          git branch: 'main', url: 'https://github.com/rajrgithub/19-roboshop-helm-chart'
         }
       }
     }
 
     stage('Helm Deploy') {
       steps {
-        sh 'find .'
-        //sh 'helm upgrade -i ${COMPONENT} ./HELM -f APP/values.yaml --set-string image.tag="${APP_VERSION},ENV=prod,COMPONENT=${COMPONENT}"'
+      // sh 'find .'
+        sh 'helm upgrade -i ${COMPONENT} ./HELM -f APP/values.yaml --set-string image.tag="${APP_VERSION},ENV=prod,COMPONENT=${COMPONENT}"'
       }
 
     }
@@ -31,11 +35,11 @@ pipeline {
 
   }
 
- // post {
-  //  always {
-      //cleanWs()
-   // }
- // }
+  post {
+    always {
+      cleanWs()
+    }
+  }
 
 
 
